@@ -1,58 +1,74 @@
 <?php
 
-Class Functions{
+Class Functions
+{
 
     /**
      * 数字添加前导零
      * @param [type] $num [description]
      */
-    function NumTransform($num){
-        if(strlen($num) == 2 && $num < 10){
-            $num = substr($num,1);
+    function NumTransform($num)
+    {
+        if (strlen($num) == 2 && $num < 10) {
+            $num = substr($num, 1);
         }
         return $num;
     }
+
     /**
      * [cutstr 汉字切割]
      * @param  [string] $string [需要切割的字符串]
      * @param  [string] $length [显示的长度]
-     * @param  string $dot    [切割后面显示的字符]
+     * @param  string $dot [切割后面显示的字符]
      * @return [string]         [切割后的字符串]
      */
-    function cutstr($string, $length, $dot = '...') {
-        if(strlen($string) <= $length) {
+    function cutstr($string, $length, $dot = '...')
+    {
+        if (strlen($string) <= $length) {
             return $string;
         }
         $string = str_replace(array('&amp;', '&quot;', '&lt;', '&gt;'), array('&', '"', '<', '>'), $string);
         $strcut = '';
         $n = $tn = $noc = 0;
-        while($n < strlen($string)) {
+        while ($n < strlen($string)) {
             $t = ord($string[$n]);
-            if($t == 9 || $t == 10 || (32 <= $t && $t <= 126)) {
-                $tn = 1; $n++; $noc++;
-            } elseif(194 <= $t && $t <= 223) {
-                $tn = 2; $n += 2; $noc += 2;
-            } elseif(224 <= $t && $t < 239) {
-                $tn = 3; $n += 3; $noc += 2;
-            } elseif(240 <= $t && $t <= 247) {
-                $tn = 4; $n += 4; $noc += 2;
-            } elseif(248 <= $t && $t <= 251) {
-                $tn = 5; $n += 5; $noc += 2;
-            } elseif($t == 252 || $t == 253) {
-                $tn = 6; $n += 6; $noc += 2;
+            if ($t == 9 || $t == 10 || (32 <= $t && $t <= 126)) {
+                $tn = 1;
+                $n++;
+                $noc++;
+            } elseif (194 <= $t && $t <= 223) {
+                $tn = 2;
+                $n += 2;
+                $noc += 2;
+            } elseif (224 <= $t && $t < 239) {
+                $tn = 3;
+                $n += 3;
+                $noc += 2;
+            } elseif (240 <= $t && $t <= 247) {
+                $tn = 4;
+                $n += 4;
+                $noc += 2;
+            } elseif (248 <= $t && $t <= 251) {
+                $tn = 5;
+                $n += 5;
+                $noc += 2;
+            } elseif ($t == 252 || $t == 253) {
+                $tn = 6;
+                $n += 6;
+                $noc += 2;
             } else {
                 $n++;
             }
-            if($noc >= $length) {
+            if ($noc >= $length) {
                 break;
             }
         }
-        if($noc > $length) {
+        if ($noc > $length) {
             $n -= $tn;
         }
         $strcut = substr($string, 0, $n);
         $strcut = str_replace(array('&', '"', '<', '>'), array('&amp;', '&quot;', '&lt;', '&gt;'), $strcut);
-        return $strcut.$dot;
+        return $strcut . $dot;
     }
 
     /**
@@ -60,19 +76,20 @@ Class Functions{
      * @param  [int] $distence [时间戳]
      * @return [string]           [秒/分钟/小时]
      */
-    function getPassedHours($distence){
-        $passed="";
-        switch($distence){
-            case ($distence < 60 ):{
-                $passed=$distence."秒";
+    function getPassedHours($distence)
+    {
+        $passed = "";
+        switch ($distence) {
+            case ($distence < 60): {
+                $passed = $distence . "秒";
                 break;
             }
-            case ($distence > 60  && $distence < 60 * 60):{
-                $passed=intval($distence/60)."分钟";
+            case ($distence > 60 && $distence < 60 * 60): {
+                $passed = intval($distence / 60) . "分钟";
                 break;
             }
-            case ($distence > 60 * 60):{
-                $passed= sprintf("%.1f", $distence/(60*60)) ."小时";
+            case ($distence > 60 * 60): {
+                $passed = sprintf("%.1f", $distence / (60 * 60)) . "小时";
                 break;
             }
         }
@@ -87,7 +104,8 @@ Class Functions{
      * @param <type> $bForceInst 是否强制重新实例化对象
      * @return sClass
      */
-    function loadClass ($sClass, $aParam = "", $bForceInst = FALSE) {
+    function loadClass($sClass, $aParam = "", $bForceInst = FALSE)
+    {
         if (empty ($aParam)) {
             $object = new $sClass();
         } else {
@@ -102,7 +120,8 @@ Class Functions{
      * @param mixed $info
      * @return mixed
      */
-    function escapeInfo($info) {
+    function escapeInfo($info)
+    {
         if (is_array($info)) {
             foreach ($info as $key => $value) {
                 $info[$key] = escapeInfo($value);
@@ -116,16 +135,16 @@ Class Functions{
     /**
      * 针对Unicode不安全改进的安全版htmlspecialchars()
      *
-     * @param	string	Text to be made html-safe
+     * @param    string    Text to be made html-safe
      *
-     * @return	string
+     * @return    string
      */
     function htmlspecialcharsUni($text, $entities = true)
     {
         return str_replace(
         // replace special html characters
-            array('<', '>', '"','\''),
-            array('&lt;', '&gt;', '&quot;','&apos;'),
+            array('<', '>', '"', '\''),
+            array('&lt;', '&gt;', '&quot;', '&apos;'),
             preg_replace(
             // translates all non-unicode entities
                 '/&(?!' . ($entities ? '#[0-9]+|shy' : '(#[0-9]+|[a-z]+)') . ';)/si',
@@ -144,7 +163,8 @@ Class Functions{
      * @param array $field 要搜索的字段数组
      * @return string
      */
-    function searchString($keyword, $con, $method, $field) {
+    function searchString($keyword, $con, $method, $field)
+    {
         $tmp = null;
         $method = strtoupper($method);
 
@@ -167,53 +187,55 @@ Class Functions{
 
         // 模糊查找
         if ($method == "LIKE") {
-            for($i = 0; $i < $num; $i++) {
+            for ($i = 0; $i < $num; $i++) {
                 $i < $num - 1 ? $condition = "OR" : $condition = null;
                 $tmp .= " {$field[$i]} $method '%" . join("%' $con {$field[$i]} $method '%", $keyword) . "%' $condition";
             }
         } else { // 精确查找
-            for($i = 0; $i < $num; $i++) {
+            for ($i = 0; $i < $num; $i++) {
                 $i < $num - 1 ? $condition = $con : $condition = null;
                 $tmp .= " INSTR({$field[$i]}, \"" . join("\") != 0 $con INSTR({$field[$i]}, \"", $keyword) . "\") != 0 $condition";
             }
         }
-        return "(".$tmp.")";
+        return "(" . $tmp . ")";
     }
 
     /**
      * 增加了全角转半角的trim
      *
-     * @param	string  $str    原字符串
+     * @param    string $str 原字符串
      * @return  string  $str    转换后的字符串
      */
-    function wtrim($str) {
-        return trim ( sbc2abc ( $str ) );
+    function wtrim($str)
+    {
+        return trim(sbc2abc($str));
     }
 
     /**
      * 全角转半角
      *
-     * @param	string  $str    原字符串
+     * @param    string $str 原字符串
      * @return  string  $str    转换后的字符串
      */
-    function sbc2abc($str) {
-        $f = array ('　', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', 'ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ', 'ｆ', 'ｇ', 'ｈ', 'ｉ', 'ｊ', 'ｋ', 'ｌ', 'ｍ', 'ｎ', 'ｏ', 'ｐ', 'ｑ', 'ｒ', 'ｓ', 'ｔ', 'ｕ', 'ｖ', 'ｗ', 'ｘ', 'ｙ', 'ｚ', 'Ａ', 'Ｂ', 'Ｃ', 'Ｄ', 'Ｅ', 'Ｆ', 'Ｇ', 'Ｈ', 'Ｉ', 'Ｊ', 'Ｋ', 'Ｌ', 'Ｍ', 'Ｎ', 'Ｏ', 'Ｐ', 'Ｑ', 'Ｒ', 'Ｓ', 'Ｔ', 'Ｕ', 'Ｖ', 'Ｗ', 'Ｘ', 'Ｙ', 'Ｚ', '．', '－', '＿', '＠' );
-        $t = array (' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', '-', '_', '@' );
-        $str = str_replace ( $f, $t, $str );
+    function sbc2abc($str)
+    {
+        $f = array('　', '０', '１', '２', '３', '４', '５', '６', '７', '８', '９', 'ａ', 'ｂ', 'ｃ', 'ｄ', 'ｅ', 'ｆ', 'ｇ', 'ｈ', 'ｉ', 'ｊ', 'ｋ', 'ｌ', 'ｍ', 'ｎ', 'ｏ', 'ｐ', 'ｑ', 'ｒ', 'ｓ', 'ｔ', 'ｕ', 'ｖ', 'ｗ', 'ｘ', 'ｙ', 'ｚ', 'Ａ', 'Ｂ', 'Ｃ', 'Ｄ', 'Ｅ', 'Ｆ', 'Ｇ', 'Ｈ', 'Ｉ', 'Ｊ', 'Ｋ', 'Ｌ', 'Ｍ', 'Ｎ', 'Ｏ', 'Ｐ', 'Ｑ', 'Ｒ', 'Ｓ', 'Ｔ', 'Ｕ', 'Ｖ', 'Ｗ', 'Ｘ', 'Ｙ', 'Ｚ', '．', '－', '＿', '＠');
+        $t = array(' ', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '.', '-', '_', '@');
+        $str = str_replace($f, $t, $str);
         return $str;
     }
-
 
 
     /**
      * 输出顶部错误提示
      *
      */
-    function errorTip($str, $exit = true,$url='') {
+    function errorTip($str, $exit = true, $url = '')
+    {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo "<script>top.window.alert('" . $str . "');</script>";
-        if($url){
-            echo '<script language="javascript">window.location.href="'.$url.'";</script>';
+        if ($url) {
+            echo '<script language="javascript">window.location.href="' . $url . '";</script>';
         }
         $exit && exit ();
     }
@@ -224,11 +246,12 @@ Class Functions{
      * @param unknown_type $str
      * @param unknown_type $exit
      */
-    function successTip($str, $exit = false,$url='') {
+    function successTip($str, $exit = false, $url = '')
+    {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo "<script>top.window.alert('" . $str . "');</script>";
-        if($url){
-            echo '<script language="javascript">window.location.href="'.$url.'";</script>';
+        if ($url) {
+            echo '<script language="javascript">window.location.href="' . $url . '";</script>';
         }
         $exit && exit ();
     }
@@ -236,7 +259,8 @@ Class Functions{
     /**
      * 弹出警告
      */
-    function alert($str, $exit = false) {
+    function alert($str, $exit = false)
+    {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
         echo '<script language="javascript">window.alert("' . $str . '");</script>';
         $exit && exit ();
@@ -255,8 +279,7 @@ Class Functions{
     function output($var, $isexit = "exit")
     {
         echo $var;
-        if ($isexit == "exit")
-        {
+        if ($isexit == "exit") {
             exit;
         }
     }
@@ -282,42 +305,39 @@ Class Functions{
 
 
         // 非成对标签
-        $lone_tags = array("img", "param","br","hr");
-        foreach($lone_tags as $key=>$val)
-        {
+        $lone_tags = array("img", "param", "br", "hr");
+        foreach ($lone_tags as $key => $val) {
             $val = preg_quote($val);
-            $str = preg_replace('/&lt;'.$val.'(.*)(\/?)&gt;/isU','<'.$val."\\1\\2>", $str);
+            $str = preg_replace('/&lt;' . $val . '(.*)(\/?)&gt;/isU', '<' . $val . "\\1\\2>", $str);
             $str = transCase($str);
-            $str =  preg_replace_callback(
-                '/<'.$val.'(.+?)>/i',
-                create_function('$temp','return str_replace("&quot;","\"",$temp[0]);'),
+            $str = preg_replace_callback(
+                '/<' . $val . '(.+?)>/i',
+                create_function('$temp', 'return str_replace("&quot;","\"",$temp[0]);'),
                 $str
             );
         }
         $str = preg_replace('/&amp;/i', '&', $str);
 
         // 成对标签
-        $double_tags = array("table", "tr", "td", "font", "a", "object", "embed", "p", "strong", "em", "u", "ol", "ul", "li", "div","tbody","span","blockquote","pre","b","font");
-        foreach($double_tags as $key=>$val)
-        {
+        $double_tags = array("table", "tr", "td", "font", "a", "object", "embed", "p", "strong", "em", "u", "ol", "ul", "li", "div", "tbody", "span", "blockquote", "pre", "b", "font");
+        foreach ($double_tags as $key => $val) {
             $val = preg_quote($val);
-            $str = preg_replace('/&lt;'.$val.'(.*)&gt;/isU','<'.$val."\\1>", $str);
+            $str = preg_replace('/&lt;' . $val . '(.*)&gt;/isU', '<' . $val . "\\1>", $str);
             $str = transCase($str);
-            $str =  preg_replace_callback(
-                '/<'.$val.'(.+?)>/i',
-                create_function('$temp','return str_replace("&quot;","\"",$temp[0]);'),
+            $str = preg_replace_callback(
+                '/<' . $val . '(.+?)>/i',
+                create_function('$temp', 'return str_replace("&quot;","\"",$temp[0]);'),
                 $str
             );
-            $str = preg_replace('/&lt;\/'.$val.'&gt;/is','</'.$val.">", $str);
+            $str = preg_replace('/&lt;\/' . $val . '&gt;/is', '</' . $val . ">", $str);
         }
         // 清理js
-        $tags = Array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'behaviour', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base','font');
+        $tags = Array('javascript', 'vbscript', 'expression', 'applet', 'meta', 'xml', 'behaviour', 'blink', 'link', 'style', 'script', 'embed', 'object', 'iframe', 'frame', 'frameset', 'ilayer', 'layer', 'bgsound', 'title', 'base', 'font');
 
-        foreach($tags as $tag)
-        {
+        foreach ($tags as $tag) {
             $tag = preg_quote($tag);
-            $str = preg_replace('/'.$tag.'\(.*\)/isU', '\\1', $str);
-            $str = preg_replace('/'.$tag.'\s*:/isU', $tag.'\:', $str);
+            $str = preg_replace('/' . $tag . '\(.*\)/isU', '\\1', $str);
+            $str = preg_replace('/' . $tag . '\s*:/isU', $tag . '\:', $str);
         }
 
         $str = preg_replace('/[\s]+on[\w]+[\s]*=/is', '', $str);
@@ -327,15 +347,16 @@ Class Functions{
 
     function transCase($str)
     {
-        $str = preg_replace('/(e|ｅ|Ｅ)(x|ｘ|Ｘ)(p|ｐ|Ｐ)(r|ｒ|Ｒ)(e|ｅ|Ｅ)(s|ｓ|Ｓ)(s|ｓ|Ｓ)(i|ｉ|Ｉ)(o|ｏ|Ｏ)(n|ｎ|Ｎ)/is','expression', $str);
+        $str = preg_replace('/(e|ｅ|Ｅ)(x|ｘ|Ｘ)(p|ｐ|Ｐ)(r|ｒ|Ｒ)(e|ｅ|Ｅ)(s|ｓ|Ｓ)(s|ｓ|Ｓ)(i|ｉ|Ｉ)(o|ｏ|Ｏ)(n|ｎ|Ｎ)/is', 'expression', $str);
         Return $str;
     }
 
-    function scriptAlert($var, $exit = 1) {
+    function scriptAlert($var, $exit = 1)
+    {
         if (!empty($var)) {
             $content = "";
             if (is_array($var)) {
-                foreach($var as $value) {
+                foreach ($var as $value) {
                     $content .= $value . "\\n";
                 }
             } else {
@@ -355,19 +376,22 @@ Class Functions{
      * 输出顶部错误提示并返回
      *
      */
-    function errorTipReturn($str) {
+    function errorTipReturn($str)
+    {
         echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-        echo '<script language="javascript">top.window.alert("' . $str . '");history.back(-1);</script>'; exit ();
+        echo '<script language="javascript">top.window.alert("' . $str . '");history.back(-1);</script>';
+        exit ();
     }
 
 
     /**
      * 跳转至父页面
      *
-     * @param    string     $url    跳转地址
-     * @param    string     $time   间隔时间
+     * @param    string $url 跳转地址
+     * @param    string $time 间隔时间
      */
-    function refresh($url = '', $mode = '') {
+    function refresh($url = '', $mode = '')
+    {
         switch ($mode) {
             case 'top' :
                 $mode = 'top';
@@ -390,10 +414,11 @@ Class Functions{
      * @param  [type] $cache_path [description]
      * @return [type]             [description]
      */
-    function mkFolders($folders, $cache_path) {
+    function mkFolders($folders, $cache_path)
+    {
         if (is_array($folders)) {
             foreach ($folders as $folder) {
-                $cache_path .=  "/" . $folder;
+                $cache_path .= "/" . $folder;
                 if (!file_exists($cache_path)) {
                     mkdir($cache_path);
                     chmod($cache_path, 0777);
@@ -405,13 +430,14 @@ Class Functions{
     /**
      * 得到PHP错误，并报告一个系统错误
      *
-     * @param integer   $errorNo
-     * @param string    $message
-     * @param string    $filename
-     * @param integer   $lineNo
+     * @param integer $errorNo
+     * @param string $message
+     * @param string $filename
+     * @param integer $lineNo
      */
-    function handleError($errorNo, $message, $filename, $lineNo) {
-        if (error_reporting () != 0) {
+    function handleError($errorNo, $message, $filename, $lineNo)
+    {
+        if (error_reporting() != 0) {
             $type = 'error';
             switch ($errorNo) {
                 case 2 :
@@ -421,7 +447,7 @@ Class Functions{
                     $type = 'notice';
                     break;
             }
-            throw new Exception ( 'PHP ' . $type . ' in file ' . $filename . ' (' . $lineNo . '): ' . $message, 0 );
+            throw new Exception ('PHP ' . $type . ' in file ' . $filename . ' (' . $lineNo . '): ' . $message, 0);
         }
     }
 }
