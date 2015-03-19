@@ -9,10 +9,12 @@
  */
 class Bootstrap extends Yaf_Bootstrap_Abstract{
 
+    private $_config;
+
     public function _initConfig() {
 		//把配置保存起来
-		$arrConfig = Yaf_Application::app()->getConfig();
-		Yaf_Registry::set('config', $arrConfig);
+        $this->_config = Yaf_Application::app()->getConfig();
+		Yaf_Registry::set('config', $this->_config);
 	}
 
 	public function _initPlugin(Yaf_Dispatcher $dispatcher) {
@@ -24,6 +26,13 @@ class Bootstrap extends Yaf_Bootstrap_Abstract{
 	public function _initRoute(Yaf_Dispatcher $dispatcher) {
 		//在这里注册自己的路由协议,默认使用简单路由
 	}
+
+    public function _initDb(Yaf_Dispatcher $dispatcher){
+        // 注册DB类
+        $this->_db = new Db($this->_config->mysql->read->toArray());
+        Yaf_Registry::set('_db', $this->_db);
+    }
+
     /*
     public function _initSession($dispatcher){
         //session_start();
@@ -35,9 +44,4 @@ class Bootstrap extends Yaf_Bootstrap_Abstract{
 		//在这里注册自己的view控制器，例如smarty,firekylin
 	}
 
-    public function _initSdk(Yaf_Dispatcher $dispatcher){
-        //加载lua类文件
-        $lua = new CT_Api('lua');
-        Yaf_Registry::set('lua', $lua);
-    }
 }
