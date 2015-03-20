@@ -29,7 +29,53 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
 
     public function _initRoute(Yaf_Dispatcher $dispatcher)
     {
-        //在这里注册自己的路由协议,默认使用简单路由
+        $router = $dispatcher->getRouter();
+        //标签页面路由规则
+        $route = new Yaf_Route_Rewrite(
+            "/tag/:name",
+            array(
+                "controller" => "column",
+                "action" => "tag",
+            )
+        );
+        $router->addRoute('tag', $route);
+
+        $route = new Yaf_Route_Rewrite(
+            "/tag/:name/:p",
+            array(
+                "controller" => "column",
+                "action" => "tag",
+            )
+        );
+        $router->addRoute('tagPage', $route);
+        // 列表页分页规则
+        $route = new Yaf_Route_Rewrite(
+            "/list/:name",
+            array(
+                "controller" => "column",
+                "action" => "list",
+            )
+        );
+        $router->addRoute('list', $route);
+
+        $route = new Yaf_Route_Rewrite(
+            "/list/:name/:p",
+            array(
+                "controller" => "column",
+                "action" => "list",
+            )
+        );
+        $router->addRoute('listPage', $route);
+        //文章详情页面分页规则
+        $route = new Yaf_Route_Rewrite(
+            "/article/:id",
+            array(
+                "controller" => "info",
+                "action" => "index",
+            )
+        );
+        $router->addRoute('article', $route);
+
     }
 
     public function _initDb(Yaf_Dispatcher $dispatcher)

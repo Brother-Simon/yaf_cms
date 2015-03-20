@@ -157,26 +157,13 @@
                 <a href="">More&gt;</a>
             </header>
             <ol class="t_love">
+                <?php  foreach((array)$loveData as $key=>$val){ ?>
                 <li>
-                    <a class="e_img" href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt=""></a>
-                    <h3><a href="" title="别再瞎想了！看看男神">别再瞎想了！看看男神别再瞎想了！看看男神</a></h3>
-                    <p class="t_p s_mt">相信每一位女孩在心中都一位梦中情人，ta可能是柔的，又可能是霸道的...</p>
+                    <a class="e_img" href="/article/<?php echo $val['ID']; ?>"><img src="<?php echo $val['image'];?>" alt="<?php echo $val['post_title']; ?>"></a>
+                    <h3><a href="/article/<?php echo $val['ID']; ?>" title="<?php echo $val['post_title']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                    <p class="t_p s_mt"><?php echo $val['description']; ?></p>
                 </li>
-                <li>
-                    <a class="e_img" href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt=""></a>
-                    <h3><a href="" title="别再瞎想了！看看男神">别再瞎想了！看看男神别再瞎想了！看看男神</a></h3>
-                    <p class="t_p s_mt">相信每一位女孩在心中都一位梦中情人，ta可能是柔的，又可能是霸道的...</p>
-                </li>
-                <li>
-                    <a class="e_img" href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt=""></a>
-                    <h3><a href="" title="别再瞎想了！看看男神">别再瞎想了！看看男神别再瞎想了！看看男神</a></h3>
-                    <p class="t_p s_mt">相信每一位女孩在心中都一位梦中情人，ta可能是柔的，又可能是霸道的...</p>
-                </li>
-                <li>
-                    <a class="e_img" href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt=""></a>
-                    <h3><a href="" title="别再瞎想了！看看男神">别再瞎想了！看看男神别再瞎想了！看看男神</a></h3>
-                    <p class="t_p s_mt">相信每一位女孩在心中都一位梦中情人，ta可能是柔的，又可能是霸道的...</p>
-                </li>
+                <?php } ?>
             </ol>
         </div>
         <div class="t_column">
@@ -185,16 +172,18 @@
                 <a href="">More&gt;</a>
             </header>
             <ol class="t_friendship">
-                <li>
-                    <a href="">
-                        <img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg" alt="">
-                        <span>男人7表现 看他心里有没有你</span>
-                    </a>
-                </li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+                <?php  foreach((array)$friendlyData as $key=>$val){ ?>
+                    <?php if($key == 0) {?>
+                    <li>
+                        <a href="/article/<?php echo $val['ID']; ?>">
+                            <img src="<?php echo $val['image'];?>" alt="">
+                            <span><?php echo $val['post_title']; ?></span>
+                        </a>
+                    </li>
+                     <?php }else{ ?>
+                    <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+                    <?php } ?>
+                <?php } ?>
             </ol>
         </div>
         <div class="t_column s_mt">
@@ -203,16 +192,18 @@
                 <a href="">More&gt;</a>
             </header>
             <ol class="t_friendship">
-                <li>
-                    <a href="">
-                        <img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg" alt="">
-                        <span>男人7表现 看他心里有没有你</span>
-                    </a>
-                </li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+                <?php  foreach((array)$pxData as $key=>$val){ ?>
+                    <?php if($key == 0) {?>
+                        <li>
+                            <a href="/article/<?php echo $val['ID']; ?>">
+                                <img src="<?php echo $val['image'];?>" alt="">
+                                <span><?php echo $val['post_title']; ?></span>
+                            </a>
+                        </li>
+                    <?php }else{ ?>
+                        <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+                    <?php } ?>
+                <?php } ?>
             </ol>
         </div>
     </div>
@@ -223,7 +214,7 @@
         <ol class="c_top">
             <?php  foreach((array)$stickyPosts as $key=>$val){ ?>
             <li>
-                <h3><a href="<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                <h3><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
                 <p class="t_p"><?php echo $val['description']; ?></p>
             </li>
             <?php } ?>
@@ -237,15 +228,17 @@
             <a href="">More&gt;</a>
         </header>
         <ol class="t_family">
-            <li>
-                <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg" alt=""></a>
-                <h3><a href="">男人为何会和初恋爱火重燃</a></h3>
-                <p class="t_p">其实一开始我并未注意到这一点，但陆陆续续，遇到过不下10个类似的案例，基本都是：本来两口子还过得好...</p>
-            </li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+            <?php  foreach((array)$familyData as $key=>$val){ ?>
+                <?php if($key == 0) {?>
+                <li>
+                    <a href="/article/<?php echo $val['ID']; ?>"><img src="<?php echo $val['image'];?>" alt="<?php echo $val['post_title']; ?>"></a>
+                    <h3><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                    <p class="t_p"><?php echo $val['description']; ?></p>
+                </li>
+                <?php }else{ ?>
+                <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+                <?php } ?>
+            <?php } ?>
         </ol>
     </div>
     <div class="t_column">
@@ -254,15 +247,17 @@
             <a href="">More&gt;</a>
         </header>
         <ol class="t_family">
-            <li>
-                <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg" alt=""></a>
-                <h3><a href="">男人为何会和初恋爱火重燃</a></h3>
-                <p class="t_p">其实一开始我并未注意到这一点，但陆陆续续，遇到过不下10个类似的案例，基本都是：本来两口子还过得好...</p>
-            </li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+            <?php  foreach((array)$constellationData as $key=>$val){ ?>
+                <?php if($key == 0) {?>
+                    <li>
+                        <a href="/article/<?php echo $val['ID']; ?>"><img src="<?php echo $val['image'];?>" alt="<?php echo $val['post_title']; ?>"></a>
+                        <h3><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                        <p class="t_p"><?php echo $val['description']; ?></p>
+                    </li>
+                <?php }else{ ?>
+                    <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+                <?php } ?>
+            <?php } ?>
         </ol>
     </div>
     <div class="t_column">
@@ -271,15 +266,17 @@
             <a href="">More&gt;</a>
         </header>
         <ol class="t_family">
-            <li>
-                <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg" alt=""></a>
-                <h3><a href="">男人为何会和初恋爱火重燃</a></h3>
-                <p class="t_p">其实一开始我并未注意到这一点，但陆陆续续，遇到过不下10个类似的案例，基本都是：本来两口子还过得好...</p>
-            </li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-            <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+            <?php  foreach((array)$workData as $key=>$val){ ?>
+                <?php if($key == 0) {?>
+                    <li>
+                        <a href="/article/<?php echo $val['ID']; ?>"><img src="<?php echo $val['image'];?>" alt="<?php echo $val['post_title']; ?>"></a>
+                        <h3><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                        <p class="t_p"><?php echo $val['description']; ?></p>
+                    </li>
+                <?php }else{ ?>
+                    <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+                <?php } ?>
+            <?php } ?>
         </ol>
     </div>
 </section>

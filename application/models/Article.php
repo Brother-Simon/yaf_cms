@@ -25,17 +25,19 @@ class ArticleModel
     }
 
     // 获取文章列表
-    public function getList($wheres = '', $option = "_posts.ID DESC", $start = 0, $limit = 10, $taxonomy = "category")
+    public function getList($wheres = '', $start = 0, $limit = 10,$option = "_posts.ID DESC",  $taxonomy = "category")
     {
 
         $columns = [
             $this->prefix . '_posts.ID',
             $this->prefix . '_posts.post_title',
-            //$this->prefix.'_posts.post_content',
+            $this->prefix.'_posts.post_content',
             $this->prefix . '_posts.post_date',
             // $this->prefix.'_terms.*',
             $this->prefix . '_term_taxonomy.taxonomy',
             $this->prefix . '_term_taxonomy.description',
+            $this->prefix . '_terms.slug',
+
         ];
 
         $join = [
@@ -55,13 +57,14 @@ class ArticleModel
         ];
         if (!empty($wheres)) {
             foreach ($wheres as $key => $val) {
+                $key = $this->prefix . $key ;
                 $where['AND'][$key] = $val;
             }
         }
         return $this->_db->select($this->prefix . '_term_relationships', $join, $columns, $where);
     }
 
-    public function getCount($where = null, $taxonomy = "category")
+    public function getCount($wheres = null, $taxonomy = "category")
     {
 
         $columns = '*';
@@ -77,6 +80,12 @@ class ArticleModel
                 $this->prefix . "_posts.post_status" => 'publish'
             ]
         ];
+        if (!empty($wheres)) {
+            foreach ($wheres as $key => $val) {
+                $key = $this->prefix . $key ;
+                $where['AND'][$key] = $val;
+            }
+        }
         return $this->_db->count($this->prefix . '_term_relationships', $join, $columns, $where);
 
     }
@@ -166,7 +175,7 @@ class ArticleModel
         $data = $this->_db->get($this->prefix . '_options', '*', ['option_name' => 'sticky_posts']);
         if (!empty($data['option_value'])) {
             $postIdArr = unserialize($data['option_value']);
-            $postData = $this->getList(array($this->prefix . "_posts.ID" => $postIdArr));
+            $postData = $this->getList(array("_posts.ID" => $postIdArr));
             return $postData;
         } else {
             return array();
