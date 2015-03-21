@@ -9,18 +9,39 @@
 class ColumnController extends Yaf_Controller_Abstract
 {
 
+    protected $configPage;
+
     public function init()
     {
-
+        $this->configPage = Yaf_Registry::get('configPage');
     }
 
     // 栏目首页 http://yaf.com/column
     public function indexAction()
     {
-
         $model = new ArticleModel();
+        $fun = new Functions();
+        $slug = $this->getRequest()->getParam('slug');
+        //最新文章
+        $newData = $model->getList(array('_terms.slug' => $slug), 0, 7, "_posts.ID DESC");
+        foreach ((array)$newData as $key => $val) {
+            $newData[$key]['description'] = $fun->cutstr(strip_tags($val['post_content']), '150');
+            unset($newData[$key]['post_content']);
+        }
         //情感百科
         $tag = $model->getTag(40);
+        //获取该栏目下所有分类文章
+        foreach ($this->configPage[$slug]['list'] as $key => $val) {
+            $allClassArticle[$val['slug']] = $model->getList(array('_terms.slug' => $val['slug']), 0, 9, "_posts.ID DESC");
+            foreach ($allClassArticle[$val['slug']] as $k => $v) {
+                $optionsImage = $model->getOptionsImage($v['ID']);
+                $allClassArticle[$val['slug']][$k]['image'] = $optionsImage['guid'];
+                break;
+            }
+        }
+        $this->getView()->assign("allClassArticle", $allClassArticle);
+        $this->getView()->assign("configPage", $this->configPage[$slug]);
+        $this->getView()->assign("newData", $newData);
         $this->getView()->assign("tag", $tag);
         return true;
     }
@@ -65,6 +86,7 @@ class ColumnController extends Yaf_Controller_Abstract
         //获取文字分类
         $data = $model->getClass($name);
         $this->getView()->assign("class", $data);
+        $this->getView()->assign("configPage", $this->configPage);
         return true;
     }
 
@@ -96,6 +118,7 @@ class ColumnController extends Yaf_Controller_Abstract
         //获取文字分类
         $data = $model->getClass($name);
         $this->getView()->assign("class", $data);
+        $this->getView()->assign("configPage", $this->configPage);
         return true;
     }
 }

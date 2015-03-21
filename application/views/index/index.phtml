@@ -38,56 +38,22 @@
     </div>
     <div class="header_center">
         <div class="header_center_inner">
-            <a class="e_logo" href=""><img src="http://images.yidejia.com/images/stationGroup/private/common/logo.png" alt=""></a>
+            <a class="e_logo" href="/"><img src="http://images.yidejia.com/images/stationGroup/private/common/logo.png" alt=""></a>
             <ol>
                 <li>
-                    <a class="e_column" href="">首页</a>
+                    <a class="e_column" href="/">首页</a>
                 </li>
+                <?php foreach($configPage as $key=>$val){ ?>
                 <li>
-                    <a class="e_column" href="">爱情</a>
+                    <a class="e_column" href="/<?php echo $val['slug']; ?>"><?php echo $val['name']; ?></a>
                     <nav>
-                        <a href="">单身季节</a>
-                        <a href="">恋爱ing</a>
-                        <a href="">婚姻堡垒</a>
-                        <a href="">边缘情感</a>
+                        <?php foreach($val['list'] as $k=>$v){ ?>
+                        <a href="/list/<?php echo $v['slug']; ?>"><?php echo $v['name']; ?></a>
+                        <?php } ?>
+
                     </nav>
                 </li>
-                <li>
-                    <a class="e_column" href="">友情</a>
-                    <nav>
-                        <a href="">房中闺蜜</a>
-                        <a href="">兄弟连</a>
-                        <a href="">蓝颜知己</a>
-                    </nav>
-                </li>
-                <li>
-                    <a class="e_column" href="">婆媳</a>
-                    <nav>
-                        <a href="">麻辣婆媳</a>
-                    </nav>
-                </li>
-                <li>
-                    <a class="e_column" href="">亲情</a>
-                    <nav>
-                        <a href="">父爱如山</a>
-                        <a href="">母亲怀抱</a>
-                        <a href="">手足之情</a>
-                    </nav>
-                </li>
-                <li>
-                    <a class="e_column" href="">工作职场</a>
-                    <nav>
-                        <a href="">八卦职场</a>
-                        <a href="">“潜规则”</a>
-                    </nav>
-                </li>
-                <li>
-                    <a class="e_column" href="">每日星座</a>
-                    <nav>
-                        <a href="">星座解说</a>
-                        <a href="">星座运程</a>
-                    </nav>
-                </li>
+                <?php } ?>
             </ol>
         </div>
     </div>

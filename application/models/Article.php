@@ -25,13 +25,13 @@ class ArticleModel
     }
 
     // 获取文章列表
-    public function getList($wheres = '', $start = 0, $limit = 10,$option = "_posts.ID DESC",  $taxonomy = "category")
+    public function getList($wheres = '', $start = 0, $limit = 10, $option = "_posts.ID DESC", $taxonomy = "category")
     {
 
         $columns = [
             $this->prefix . '_posts.ID',
             $this->prefix . '_posts.post_title',
-            $this->prefix.'_posts.post_content',
+            $this->prefix . '_posts.post_content',
             $this->prefix . '_posts.post_date',
             // $this->prefix.'_terms.*',
             $this->prefix . '_term_taxonomy.taxonomy',
@@ -57,7 +57,7 @@ class ArticleModel
         ];
         if (!empty($wheres)) {
             foreach ($wheres as $key => $val) {
-                $key = $this->prefix . $key ;
+                $key = $this->prefix . $key;
                 $where['AND'][$key] = $val;
             }
         }
@@ -82,7 +82,7 @@ class ArticleModel
         ];
         if (!empty($wheres)) {
             foreach ($wheres as $key => $val) {
-                $key = $this->prefix . $key ;
+                $key = $this->prefix . $key;
                 $where['AND'][$key] = $val;
             }
         }
@@ -150,7 +150,20 @@ class ArticleModel
                 $this->prefix . "_terms.slug" => $slug,
             ]
         ];
-        return $this->_db->get($this->prefix . '_terms', $join, '*', $where);
+        $data = $this->_db->get($this->prefix . '_terms', $join, '*', $where);
+        if ($data['parent'] > 0) {
+            $where = [
+                "AND" => [
+                    $this->prefix . "_terms.term_id" => $data['parent'],
+                ]
+            ];
+            $fData = $this->_db->get($this->prefix . '_terms', $join, '*', $where);
+            $data['f_name'] = $fData['name'];
+            $data['f_slug'] = $fData['slug'];
+            $data['f_term_id'] = $fData['term_id'];
+
+        }
+        return $data;
     }
 
     public function getTerm($postId)

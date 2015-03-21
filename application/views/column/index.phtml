@@ -38,13 +38,12 @@
     </div>
     <div class="header_center s_bb">
         <div class="header_center_inner">
-            <a class="e_logo" href=""><img src="http://images.yidejia.com/images/stationGroup/private/common/logo.png" alt=""></a>
-            <h1 class="e_column">爱情</h1>
+            <a class="e_logo" href="/"><img src="http://images.yidejia.com/images/stationGroup/private/common/logo.png" alt="<?php echo $configPage['name']; ?>"></a>
+            <h1 class="e_column"><?php echo $configPage['name']; ?></h1>
             <nav class="l_list">
-                <a href="">单身季节</a>
-                <a href="">恋爱ing</a>
-                <a href="">婚姻堡垒</a>
-                <a href="">边缘情感</a>
+                <?php foreach((array)$configPage['list'] as $key=>$val){ ?>
+                <a href="/list/<?php echo $val['slug'];?>"><?php echo $val['name'];?></a>
+                <?php } ?>
             </nav>
         </div>
     </div>
@@ -52,9 +51,9 @@
 
 <div class="container">
     <nav class="navigation">
-        <a href="">私密网首页</a>
+        <a href="/">私密网首页</a>
         <i>&gt;</i>
-        <em>爱情</em>
+        <em><?php echo $configPage['name']; ?></em>
     </nav>
     <section class="section">
         <div class="t_column t_carousel J_carousel">
@@ -90,22 +89,17 @@
         <div class="t_column m_focus">
             <h2>TODAY’S FOCUS</h2>
             <ol class="c_focus_ol">
-                <li class="l_text">
-                    <h3><a href="">不是所有情史都能对男人坦白</a></h3>
-                    <p class="t_p">男人的爱总是沉默的，他们不善于用嘴巴把心底的话出来，此时有些女人就因此抓狂。既然很简单，下...</p>
-                </li>
-                <li class="l_text">
-                    <h3><a href="">不是所有情史都能对男人坦白</a></h3>
-                    <p class="t_p">男人的爱总是沉默的，他们不善于用嘴巴把心底的话出来，此时有些女人就因此抓狂。既然很简单，下...</p>
-                </li>
-                <li class="l_text">
-                    <h3><a href="">不是所有情史都能对男人坦白</a></h3>
-                    <p class="t_p">男人的爱总是沉默的，他们不善于用嘴巴把心底的话出来，此时有些女人就因此抓狂。既然很简单，下...</p>
-                </li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+                <?php foreach((array)$newData as $key=>$val){ ?>
+                    <?php if($key <= 2){ ?>
+                    <li class="l_text">
+                        <h3><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></h3>
+                        <p class="t_p"><?php echo $val['description']; ?></p>
+                    </li>
+                    <?php  }else{ ?>
+                    <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $val['post_title']; ?></a></li>
+
+                    <?php } ?>
+                <?php } ?>
             </ol>
         </div>
         <div class="t_column">
@@ -131,82 +125,26 @@
     </section>
     <section class="section">
         <div class="section_left">
+
+            <?php foreach((array)$configPage['list'] as $key=>$val){ ?>
             <div class="m_column_item">
                 <header class="t_header">
-                    <h2 class="s_fz">单身季节</h2>
-                    <a href="">More&gt;</a>
+                    <h2 class="s_fz"><?php echo $val['name']; ?></h2>
+                    <a href="/list/<?php echo $val['slug']; ?>">More&gt;</a>
                 </header>
                 <ol class="c_season">
-                    <li>
-                        <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt="" title=""></a>
-                    </li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
+                    <?php foreach((array)$allClassArticle[$val['slug']] as $k=>$v){ ?>
+                        <?php if($k == 0){ ?>
+                        <li>
+                            <a href="/article/<?php echo $val['ID']; ?>"><img src="<?php echo $v['image']; ?>"  title="<?php echo $v['post_title']; ?>"></a>
+                        </li>
+                        <?php }else{ ?>
+                        <li class="t_list"><a href="/article/<?php echo $val['ID']; ?>"><?php echo $v['post_title']; ?></a></li>
+                        <?php } ?>
+                    <?php } ?>
                 </ol>
             </div>
-            <div class="m_column_item">
-                <header class="t_header">
-                    <h2 class="s_fz">恋爱ing</h2>
-                    <a href="">More&gt;</a>
-                </header>
-                <ol class="c_season">
-                    <li>
-                        <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt="" title=""></a>
-                    </li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                </ol>
-            </div>
-            <div class="m_column_item">
-                <header class="t_header">
-                    <h2 class="s_fz">婚姻堡垒</h2>
-                    <a href="">More&gt;</a>
-                </header>
-                <ol class="c_season">
-                    <li>
-                        <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt="" title=""></a>
-                    </li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                </ol>
-            </div>
-            <div class="m_column_item">
-                <header class="t_header">
-                    <h2 class="s_fz">边缘情感</h2>
-                    <a href="">More&gt;</a>
-                </header>
-                <ol class="c_season">
-                    <li>
-                        <a href=""><img src="http://img1.atido.com/7/2015/02/09/c1b980b43a4.jpg!140.105" alt="" title=""></a>
-                    </li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                    <li class="t_list"><a href="">我上夜班期间妻带情</a></li>
-                </ol>
-            </div>
+            <?php } ?>
         </div>
         <div class="section_right">
             <header class="t_header">

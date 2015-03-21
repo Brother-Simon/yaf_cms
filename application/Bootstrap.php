@@ -18,6 +18,52 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
         //把配置保存起来
         $this->_config = Yaf_Application::app()->getConfig();
         Yaf_Registry::set('config', $this->_config);
+        //把页面链接数据保存起来
+        $data['love'] = array('name' => '爱情', 'slug' => 'love',
+            'list' => array(
+                array('name' => '单身季节', 'slug' => 'dsjj'),
+                array('name' => '恋爱ing', 'slug' => 'loveing'),
+                array('name' => '婚姻堡垒', 'slug' => 'hybl'),
+                array('name' => '边缘情感', 'slug' => 'blqg')
+            )
+        );
+
+        $data['family'] = array('name' => '亲情', 'slug' => 'family',
+            'list' => array(
+                array('name' => '手足之情', 'slug' => 'szzq'),
+                array('name' => '母亲怀抱', 'slug' => 'mqhb'),
+                array('name' => '父爱如山', 'slug' => 'fars')
+            )
+        );
+
+        $data['friendly'] = array('name' => '友情', 'slug' => 'friendly',
+            'list' => array(
+                array('name' => '兄弟连', 'slug' => 'xdl'),
+                array('name' => '房中闺蜜', 'slug' => 'fzgm'),
+                array('name' => '蓝颜知己', 'slug' => 'lyzj')
+            )
+        );
+
+        $data['px'] = array('name' => '婆媳', 'slug' => 'px',
+            'list' => array(
+                array('name' => '麻辣婆媳', 'slug' => 'mlpx')
+            )
+        );
+
+        $data['gzzc'] = array('name' => '工作职场', 'slug' => 'gzzc',
+            'list' => array(
+                array('name' => '八卦职场', 'slug' => 'bgzc'),
+                array('name' => '潜规则', 'slug' => 'qgz')
+            )
+        );
+
+        $data['mrxz'] = array('name' => '每日星座', 'slug' => 'mrxz',
+            'list' => array(
+                array('name' => '星座解说', 'slug' => 'xzjs'),
+                array('name' => '星座运程', 'slug' => 'xzyc')
+            )
+        );
+        Yaf_Registry::set('configPage', $data);
     }
 
     public function _initPlugin(Yaf_Dispatcher $dispatcher)
@@ -30,6 +76,16 @@ class Bootstrap extends Yaf_Bootstrap_Abstract
     public function _initRoute(Yaf_Dispatcher $dispatcher)
     {
         $router = $dispatcher->getRouter();
+        //栏目
+        $route = new Yaf_Route_Rewrite(
+            "/:slug",
+            array(
+                "controller" => "column",
+                "action" => "index",
+            )
+        );
+        $router->addRoute('column', $route);
+
         //标签页面路由规则
         $route = new Yaf_Route_Rewrite(
             "/tag/:name",

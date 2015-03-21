@@ -38,41 +38,20 @@
     </div>
     <div class="header_center s_bg">
         <div class="header_center_inner">
-            <a class="e_logo" href=""><img src="http://images.yidejia.com/images/stationGroup/private/common/logo_2.png" alt=""></a>
+            <a class="e_logo" href="/"><img src="http://images.yidejia.com/images/stationGroup/private/common/logo_2.png" alt=""></a>
             <div class="u_dls">
+                <?php foreach($configPage as $key=>$val){ ?>
                 <dl>
-                    <dt><a href="">爱情</a></dt>
-                    <dd><a href="">单身季节</a></dd>
-                    <dd><a href="">恋爱ing</a></dd>
-                    <dd><a href="">婚姻堡垒</a></dd>
-                    <dd><a href="">边缘情感</a></dd>
+
+
+                        <dt><a href="/<?php echo $val['slug']; ?>"><?php echo $val['name']; ?></a></dt>
+                        <?php foreach($val['list'] as $k=>$v){ ?>
+                        <dd><a href="/list/<?php echo $v['slug']; ?>"><?php echo $v['name']; ?></a></dd>
+                        <?php } ?>
+
                 </dl>
-                <dl>
-                    <dt><a href="">友情</a></dt>
-                    <dd><a href="">房中闺蜜</a></dd>
-                    <dd><a href="">兄弟连</a></dd>
-                    <dd><a href="">蓝颜知己</a></dd>
-                </dl>
-                <dl>
-                    <dt><a href="">婆媳</a></dt>
-                    <dd><a href="">麻辣婆媳</a></dd>
-                </dl>
-                <dl>
-                    <dt><a href="">亲情</a></dt>
-                    <dd><a href="">父爱如山</a></dd>
-                    <dd><a href="">母亲怀抱</a></dd>
-                    <dd><a href="">手足之情</a></dd>
-                </dl>
-                <dl>
-                    <dt><a href="">工作职场</a></dt>
-                    <dd><a href="">八卦职场</a></dd>
-                    <dd><a href="">“潜规则”</a></dd>
-                </dl>
-                <dl>
-                    <dt><a href="">每日星座</a></dt>
-                    <dd><a href="">星座解说</a></dd>
-                    <dd><a href="">星座运程</a></dd>
-                </dl>
+                <?php } ?>
+
             </div>
         </div>
     </div>
@@ -82,7 +61,7 @@
     <nav class="navigation">
         <a href="/">私密网首页</a>
         <i>&gt;</i>
-        <a href="">爱情</a>
+        <a href="/<?php echo $class['f_slug'];?>"><?php echo $class['f_name'];?></a>
         <i>&gt;</i>
         <em><?php echo $class['name'];?></em>
     </nav>

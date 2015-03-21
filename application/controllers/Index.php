@@ -8,10 +8,11 @@
  */
 class IndexController extends Yaf_Controller_Abstract
 {
+    private $configPage;
 
     public function init()
     {
-
+        $this->configPage = Yaf_Registry::get('configPage');
     }
 
     //http://yaf.com/index.php?c=index&a=index
@@ -78,7 +79,8 @@ class IndexController extends Yaf_Controller_Abstract
         //推荐TOP
         $stickyPosts = $model->getStickyPosts();
         $this->getView()->assign("stickyPosts", $stickyPosts);
-
+        //写入配置页面数据
+        $this->getView()->assign("configPage", $this->configPage);
         return true;
     }
 
